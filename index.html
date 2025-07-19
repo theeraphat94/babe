@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>สำหรับคนพิเศษ ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+
+    #heart-btn {
+      background-color: transparent;
+      border: none;
+      font-size: 50px;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    #gallery {
+      margin-top: 20px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .photo {
+      width: 80%;
+      max-width: 300px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (min-width: 600px) {
+      .photo {
+        width: 45%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>สำหรับคนที่อยู่ในใจเสมอ ❤️</h1>
+  <button id="heart-btn">💖</button>
+
+  <div id="gallery">
+    <img src="images/photo1.jpg" class="photo" alt="รูป 1">
+    <img src="images/photo2.jpg" class="photo" alt="รูป 2">
+    <img src="images/photo3.jpg" class="photo" alt="รูป 3">
+  </div>
+
+  <audio id="bg-music" autoplay loop>
+    <source src="images/music.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <script>
+    const btn = document.getElementById('heart-btn');
+    const gallery = document.getElementById('gallery');
+    const music = document.getElementById('bg-music');
+
+    btn.addEventListener('click', () => {
+      gallery.style.display = 'flex';
+      btn.style.display = 'none';
+      music.play();
+    });
+  </script>
+
+</body>
+</html>
