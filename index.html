@@ -30,10 +30,16 @@
       position: relative;
     }
 
-    h1 {
-      margin-bottom: 40px;
-      font-size: 2.5em;
-      color: #ff4f91;
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.4;
+      pointer-events: none;
     }
 
     .emoji-envelope {
@@ -129,6 +135,12 @@
   </style>
 </head>
 <body>
+
+  <!-- วิดีโอพื้นหลัง -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="images/videoplayback.mp4" type="video/mp4">
+    เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+  </video>
 
   <!-- อีโมจิซองจดหมาย -->
   <div id="emojiEnvelope" class="emoji-envelope" role="button" tabindex="0" aria-label="เปิด/ปิดซอง">💌</div>
