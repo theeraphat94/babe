@@ -14,8 +14,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(145deg, #ffe3ec, #f9c5d1);
+      background-color: #000; /* พื้นหลังสีดำ */
       font-family: 'Prompt', sans-serif;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -26,50 +27,52 @@
     }
 
     h1 {
-      color: #b80050;
-      margin-bottom: 30px;
-      font-size: 2.2em;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      font-size: 2.5em;
+      color: #ff4f91;
     }
 
+    /* ซองจดหมาย */
     .envelope {
       position: relative;
-      width: 200px;
-      height: 120px;
-      background: white;
+      width: 320px;
+      height: 200px;
+      background: #ffffff;
       border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 25px rgba(255, 0, 80, 0.2);
       cursor: pointer;
       transition: transform 0.3s ease;
+      perspective: 1000px;
     }
 
     .envelope:hover {
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
 
     .flap {
       position: absolute;
       top: 0;
       left: 0;
-      width: 200px;
-      height: 100px;
-      background: white;
+      width: 100%;
+      height: 140px;
+      background: #ffffff;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
-      z-index: 2;
-      transition: transform 0.6s ease;
       transform-origin: top;
+      transition: transform 0.6s ease;
+      z-index: 2;
     }
 
     .heart {
       position: absolute;
-      top: 30px;
+      top: 60px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 30px;
+      font-size: 40px;
       z-index: 3;
       pointer-events: none;
+      color: #ff4f91;
     }
 
     .opened .flap {
@@ -86,10 +89,10 @@
     }
 
     .photo {
-      width: 80%;
-      max-width: 300px;
+      width: 85%;
+      max-width: 400px;
       border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
       transition: transform 0.3s ease;
     }
 
@@ -121,10 +124,10 @@
 </head>
 <body>
 
-  <h1>สำหรับคนที่อยู่ในใจเสมอ 💌</h1>
+  <h1>ถึงคนพิเศษในใจ 💌</h1>
 
   <div class="envelope" id="envelope">
-    <div class="flap"></div>
+    <div class="flap" id="flap"></div>
     <div class="heart">❤️</div>
   </div>
 
@@ -141,15 +144,25 @@
 
   <script>
     const envelope = document.getElementById('envelope');
+    const flap = document.getElementById('flap');
     const gallery = document.getElementById('gallery');
     const music = document.getElementById('bg-music');
+    let isOpened = false;
 
     envelope.addEventListener('click', () => {
-      envelope.classList.add('opened');
-      setTimeout(() => {
-        gallery.style.display = 'flex';
-        music.play();
-      }, 600); // รอให้ flap เปิดก่อน
+      isOpened = !isOpened;
+      envelope.classList.toggle('opened');
+
+      if (isOpened) {
+        setTimeout(() => {
+          gallery.style.display = 'flex';
+          music.play();
+        }, 600);
+      } else {
+        gallery.style.display = 'none';
+        music.pause();
+        music.currentTime = 0;
+      }
     });
   </script>
 
