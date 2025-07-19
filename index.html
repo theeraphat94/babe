@@ -24,12 +24,15 @@
       min-height: 100vh;
       text-align: center;
       overflow-x: hidden;
+      position: relative;
+      overflow-y: hidden;
     }
 
     h1 {
       margin-bottom: 40px;
       font-size: 2.5em;
       color: #ff4f91;
+      user-select: none;
     }
 
     .envelope {
@@ -41,8 +44,15 @@
       border: 2px solid #ccc;
       box-shadow: 0 12px 25px rgba(255, 0, 80, 0.2);
       cursor: pointer;
-      transition: transform 0.6s ease, left 1s ease, top 1s ease;
+      transition: transform 0.6s ease;
       z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.4em;
+      color: #ff4f91;
+      user-select: none;
     }
 
     .flap {
@@ -59,6 +69,7 @@
       transform-origin: top;
       transition: transform 0.6s ease;
       z-index: 2;
+      pointer-events: none;
     }
 
     .heart {
@@ -70,6 +81,7 @@
       z-index: 3;
       pointer-events: none;
       color: #ff4f91;
+      user-select: none;
     }
 
     .opened .flap {
@@ -77,7 +89,25 @@
     }
 
     .opened {
-      transform: scale(0.9) translateX(-220px) translateY(-100px);
+      width: 160px;
+      height: 100px;
+      transform: scale(0.8);
+      cursor: pointer;
+      /* อยู่กลางจอ ไม่เฉียง */
+      margin-bottom: 20px;
+    }
+
+    .opened .heart {
+      display: none;
+    }
+
+    .opened .close-text {
+      display: block;
+    }
+
+    .close-text {
+      display: none;
+      pointer-events: none;
     }
 
     #gallery {
@@ -109,22 +139,53 @@
     audio {
       display: none;
     }
+
+    /* ดอกลิลลี่หล่น */
+    .lily {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      color: #ffb6c1;
+      user-select: none;
+      animation-name: fall, sway;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+      animation-direction: normal, alternate;
+      animation-duration: var(--fall-duration), 3s;
+      animation-delay: var(--fall-delay), 0s;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sway {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(20px); }
+    }
+
   </style>
 </head>
 <body>
 
   <h1>ถึงคนพิเศษในใจ 💌</h1>
 
-  <div class="envelope" id="envelope">
+  <div class="envelope" id="envelope" tabindex="0" role="button" aria-pressed="false">
     <div class="flap" id="flap"></div>
     <div class="heart">❤️</div>
+    <div class="close-text">ปิดซอง</div>
   </div>
 
   <div id="gallery">
     <img src="images/1.png" class="photo" alt="รูปพิเศษ" />
   </div>
 
-  <audio id="bg-music" autoplay loop>
+  <audio id="bg-music" loop>
     <source src="images/calla.mp3" type="audio/mpeg" />
     Your browser does not support the audio tag.
   </audio>
@@ -135,15 +196,45 @@
     const music = document.getElementById('bg-music');
     let isOpened = false;
 
+    // ฟังก์ชันสร้างดอกลิลลี่
+    function createLily() {
+      const lily = document.createElement('div');
+      lily.classList.add('lily');
+      lily.style.left = Math.random() * 100 + 'vw';
+      lily.style.setProperty('--fall-duration', (5 + Math.random() * 5) + 's');
+      lily.style.setProperty('--fall-delay', (Math.random() * 5) + 's');
+      lily.textContent = '🌸';
+      document.body.appendChild(lily);
+
+      // ลบดอกไม้หลังตก
+      setTimeout(() => {
+        lily.remove();
+      }, 10000);
+    }
+
+    // สร้างดอกลิลลี่หลายดอกช่วงเปิดซอง
+    function startLilies() {
+      createLily();
+      const interval = setInterval(() => {
+        if (!isOpened) {
+          clearInterval(interval);
+          return;
+        }
+        createLily();
+      }, 500);
+    }
+
     envelope.addEventListener('click', () => {
       isOpened = !isOpened;
       envelope.classList.toggle('opened');
+      envelope.setAttribute('aria-pressed', isOpened);
 
       if (isOpened) {
         setTimeout(() => {
           gallery.style.display = 'flex';
           music.currentTime = 55; // เริ่มเพลงท่อนพรีฮุกที่วินาที 55
           music.play();
+          startLilies();
         }, 600);
       } else {
         gallery.style.display = 'none';
