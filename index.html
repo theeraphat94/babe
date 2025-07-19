@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>💌</title>
+
+  <!-- โหลดฟอนต์ Prompt และ TH Sarabun -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -61,8 +64,17 @@
       50% { transform: translateY(-10px); }
     }
 
+    #loveText {
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1.8em;
+      color: #ffc6d0;
+      margin: 20px 0;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
     #gallery {
-      margin-top: 40px;
+      margin-top: 20px;
       display: none;
       flex-direction: column;
       align-items: center;
@@ -92,12 +104,8 @@
       font-size: 24px;
       color: #ffb6c1;
       user-select: none;
-      animation-name: fall, sway;
-      animation-timing-function: linear, ease-in-out;
-      animation-iteration-count: infinite, infinite;
-      animation-direction: normal, alternate;
-      animation-duration: var(--fall-duration), 3s;
-      animation-delay: var(--fall-delay), 0s;
+      animation: fall var(--fall-duration, 7s) linear forwards,
+                 sway 3s ease-in-out infinite alternate;
       pointer-events: none;
       z-index: 1000;
       will-change: transform, opacity;
@@ -122,14 +130,15 @@
 </head>
 <body>
 
-  <h1>💌</h1>
-
   <!-- อีโมจิซองจดหมาย -->
   <div id="emojiEnvelope" class="emoji-envelope" role="button" tabindex="0" aria-label="เปิด/ปิดซอง">💌</div>
 
   <!-- ข้อความ -->
   <div id="tapText" class="tap-text">จิ้มที่ซองๆๆๆ</div>
   <div id="closeText" class="close-text hidden">ปิดซอง</div>
+
+  <!-- ข้อความรัก -->
+  <div id="loveText">รักเบ้บบบบบบ 💖</div>
 
   <!-- แกลเลอรี่ -->
   <div id="gallery">
@@ -148,6 +157,7 @@
     const music = document.getElementById('bg-music');
     const tapText = document.getElementById('tapText');
     const closeText = document.getElementById('closeText');
+    const loveText = document.getElementById('loveText');
     let isOpened = false;
     let lilyInterval;
 
@@ -156,7 +166,6 @@
       lily.classList.add('lily');
       lily.style.left = Math.random() * 100 + 'vw';
       lily.style.setProperty('--fall-duration', (5 + Math.random() * 5) + 's');
-      lily.style.setProperty('--fall-delay', (Math.random() * 5) + 's');
       lily.textContent = '🌸';
       document.body.appendChild(lily);
       setTimeout(() => lily.remove(), 10000);
@@ -170,13 +179,14 @@
           return;
         }
         createLily();
-      }, 500);
+      }, 400);
     }
 
     function openEnvelope() {
       isOpened = true;
       tapText.classList.add('hidden');
       closeText.classList.remove('hidden');
+      loveText.style.display = 'block';
       gallery.style.display = 'flex';
       music.currentTime = 55;
       music.play();
@@ -187,6 +197,7 @@
       isOpened = false;
       tapText.classList.remove('hidden');
       closeText.classList.add('hidden');
+      loveText.style.display = 'none';
       gallery.style.display = 'none';
       music.pause();
       music.currentTime = 0;
