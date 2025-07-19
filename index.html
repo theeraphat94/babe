@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>สำหรับคนพิเศษ 💌</title>
+  <title>💌</title>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -33,67 +33,72 @@
       color: #ff4f91;
     }
 
+    /* ซอง */
     .envelope {
       position: relative;
       width: 320px;
       height: 200px;
-      background: #ffffff;
+      background: #fff;
       border-radius: 10px;
-      border: 2px solid #ccc;
       box-shadow: 0 12px 25px rgba(255, 0, 80, 0.2);
       cursor: pointer;
       transition: transform 0.6s ease;
       z-index: 10;
       user-select: none;
+      overflow: hidden;
     }
 
+    /* ฝาซองเป็นสามเหลี่ยมอยู่ด้านบน */
     .flap {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100px; /* ลดความสูงเหลือ 100px จาก 140px */
-      background: #ffffff;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      height: 90px; /* ความสูงฝา */
+      background: #fff;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       border-bottom: 2px solid #ccc;
       transform-origin: top;
       transition: transform 0.6s ease;
-      z-index: 2;
+      z-index: 5;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .heart {
-      position: absolute;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 40px;
-      z-index: 3;
-      pointer-events: none;
-      color: #ff4f91;
-      user-select: none;
-    }
-
+    /* เวลาซองเปิด ฝาจะหมุนกลับ */
     .opened .flap {
       transform: rotateX(180deg);
+      box-shadow: none;
     }
 
+    /* ตัวซองตอนเปิดเล็กลงและอยู่ตรงกลาง */
     .opened {
-      transform: scale(0.7); /* ซองเล็กลง */
-      /* อยู่ตรงกลาง ไม่เฉียง */
+      transform: scale(0.7);
       left: 0;
       top: 0;
       margin: 0 auto;
       position: relative;
     }
 
+    /* หัวใจตรงกลางซอง */
+    .heart {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 40px;
+      z-index: 6;
+      pointer-events: none;
+      color: #ff4f91;
+      user-select: none;
+    }
+
+    /* ข้อความ "ปิดซอง" สีขาวใต้ซองตอนเปิด */
     .close-text {
       position: absolute;
       bottom: -40px;
       left: 50%;
       transform: translateX(-50%);
-      color: #ff4f91;
+      color: #fff; /* เปลี่ยนเป็นสีขาว */
       font-weight: 600;
       font-size: 1.2em;
       user-select: none;
@@ -107,6 +112,27 @@
       opacity: 1;
     }
 
+    /* ข้อความก่อนเปิดซอง ขยับเด้งๆ */
+    .tap-text {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.2em;
+      user-select: none;
+      pointer-events: none;
+      animation: bounce 1.5s infinite;
+      z-index: 15;
+    }
+
+    /* ข้อความนี้จะซ่อนไปเมื่อซองเปิด */
+    .opened ~ .tap-text {
+      display: none;
+    }
+
+    /* ภาพใน gallery */
     #gallery {
       margin-top: 40px;
       display: none;
@@ -131,6 +157,15 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-10px);
+      }
     }
 
     /* ดอกไม้ลิลลี่โรยลงมา */
@@ -174,13 +209,16 @@
 </head>
 <body>
 
-  <h1>ถึงคนพิเศษในใจ 💌</h1>
+  <h1>for babe 💌</h1>
 
   <div class="envelope" id="envelope" tabindex="0" role="button" aria-pressed="false" aria-label="เปิด/ปิดซองจดหมาย">
     <div class="flap" id="flap"></div>
     <div class="heart">❤️</div>
     <div class="close-text">ปิดซอง</div>
   </div>
+
+  <!-- ข้อความก่อนเปิดซอง -->
+  <div class="tap-text">จิ้มที่ซองๆๆๆ</div>
 
   <div id="gallery">
     <img src="images/1.png" class="photo" alt="รูปพิเศษ" />
@@ -196,6 +234,7 @@
     const gallery = document.getElementById('gallery');
     const music = document.getElementById('bg-music');
     const closeText = envelope.querySelector('.close-text');
+    const tapText = document.querySelector('.tap-text');
     let isOpened = false;
     let lilyInterval;
 
@@ -230,6 +269,7 @@
       envelope.setAttribute('aria-pressed', isOpened);
 
       if (isOpened) {
+        tapText.style.display = 'none';
         setTimeout(() => {
           gallery.style.display = 'flex';
           music.currentTime = 55; // เริ่มเพลงท่อนพรีฮุกที่วินาที 55
@@ -237,6 +277,7 @@
           startLilies();
         }, 600);
       } else {
+        tapText.style.display = 'block';
         gallery.style.display = 'none';
         music.pause();
         music.currentTime = 0;
