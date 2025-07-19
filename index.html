@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>สำหรับคนพิเศษ ❤️</title>
+  <!-- ฟอนต์สวยๆ จาก Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background-color: #fff0f5;
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #ffe3ec, #f9c5d1);
+      font-family: 'Prompt', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       text-align: center;
+      overflow-x: hidden;
     }
 
     h1 {
-      color: #d6336c;
-      margin-bottom: 20px;
+      color: #b80050;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
 
     #heart-btn {
-      background-color: transparent;
+      background: linear-gradient(135deg, #ff6ec4, #7873f5);
       border: none;
       font-size: 50px;
+      padding: 15px 25px;
+      border-radius: 50%;
       cursor: pointer;
       animation: pulse 1s infinite;
+      transition: transform 0.2s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      color: white;
+    }
+
+    #heart-btn:hover {
+      transform: scale(1.2);
     }
 
     @keyframes pulse {
@@ -38,18 +57,29 @@
     }
 
     #gallery {
-      margin-top: 20px;
+      margin-top: 40px;
       display: none;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 20px;
       justify-content: center;
+      animation: fadeIn 1s ease forwards;
     }
 
     .photo {
       width: 80%;
       max-width: 300px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .photo:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     audio {
@@ -61,6 +91,12 @@
         width: 45%;
       }
     }
+
+    @media (min-width: 1000px) {
+      .photo {
+        width: 30%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -69,13 +105,13 @@
   <button id="heart-btn">💖</button>
 
   <div id="gallery">
-    <img src="images/photo1.jpg" class="photo" alt="รูป 1">
-    <img src="images/photo2.jpg" class="photo" alt="รูป 2">
-    <img src="images/photo3.jpg" class="photo" alt="รูป 3">
+    <img src="images/photo1.jpg" class="photo" alt="รูป 1" />
+    <img src="images/photo2.jpg" class="photo" alt="รูป 2" />
+    <img src="images/photo3.jpg" class="photo" alt="รูป 3" />
   </div>
 
   <audio id="bg-music" autoplay loop>
-    <source src="images/music.mp3" type="audio/mpeg">
+    <source src="images/music.mp3" type="audio/mpeg" />
     Your browser does not support the audio tag.
   </audio>
 
