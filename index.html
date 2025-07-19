@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>💌</title>
 
-  <!-- โหลดฟอนต์ Prompt และ TH Sarabun -->
+  <!-- ฟอนต์ -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -40,6 +38,7 @@
       z-index: -1;
       opacity: 0.4;
       pointer-events: none;
+      display: none; /* ซ่อนตอนเริ่มต้น */
     }
 
     .emoji-envelope {
@@ -139,11 +138,11 @@
   <!-- วิดีโอพื้นหลัง -->
   <video id="bg-video" autoplay loop muted playsinline>
     <source src="images/videoplayback.mp4" type="video/mp4">
-    เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+    เบราว์เซอร์ของคุณไม่รองรับวิดีโอ
   </video>
 
-  <!-- อีโมจิซองจดหมาย -->
-  <div id="emojiEnvelope" class="emoji-envelope" role="button" tabindex="0" aria-label="เปิด/ปิดซอง">💌</div>
+  <!-- ซองจดหมาย -->
+  <div id="emojiEnvelope" class="emoji-envelope" role="button" tabindex="0">💌</div>
 
   <!-- ข้อความ -->
   <div id="tapText" class="tap-text">จิ้มที่ซองๆๆๆ</div>
@@ -170,6 +169,7 @@
     const tapText = document.getElementById('tapText');
     const closeText = document.getElementById('closeText');
     const loveText = document.getElementById('loveText');
+    const bgVideo = document.getElementById('bg-video');
     let isOpened = false;
     let lilyInterval;
 
@@ -202,6 +202,7 @@
       gallery.style.display = 'flex';
       music.currentTime = 55;
       music.play();
+      bgVideo.style.display = 'block'; // แสดงวิดีโอ
       startLilies();
     }
 
@@ -214,6 +215,7 @@
       music.pause();
       music.currentTime = 0;
       clearInterval(lilyInterval);
+      bgVideo.style.display = 'none'; // ซ่อนวิดีโอ
     }
 
     emojiEnvelope.addEventListener('click', () => {
